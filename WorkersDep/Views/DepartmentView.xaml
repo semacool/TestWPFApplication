@@ -1,0 +1,56 @@
+﻿<Window x:Class="WorkersDep.Views.DepartmentView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WorkersDep.Views"
+        mc:Ignorable="d"
+        Title="DepartmentView" Height="346" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="156*"/>
+            <ColumnDefinition Width="487*"/>
+            <ColumnDefinition Width="157*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Style="{StaticResource tblStyle}" 
+                   Text="Название"/>
+        
+        <TextBox Style="{StaticResource tbStyle}" 
+                 Grid.Column="1"
+                 Text="{Binding Department.Name}"/>
+        
+        <TextBlock Style="{StaticResource tblStyle}"
+                   Grid.Column="2" 
+                   Text="{Binding Department.Id,StringFormat=Id: {0}}"/>
+
+        <TextBlock Style="{StaticResource tblStyle}" 
+                   Grid.Row="1" 
+                   Text="Начальник"/>
+        <ComboBox Style="{StaticResource cbStyle}" 
+                  Grid.Row="1" Grid.Column="1" 
+                  SelectedItem="{Binding Department.Boss}"
+                  ItemsSource="{Binding Department.Workers}"/>
+
+        <Button Style="{StaticResource btStyle}" 
+                VerticalAlignment="Center"
+                Grid.Column="2" Grid.Row="1"
+                Content="Понизить"
+                Command="{Binding Click_Demote}"/>
+        
+        <Button Style="{StaticResource btStyle}" 
+                Grid.Column="1" Grid.Row="2"
+                Content="Сохранить"
+                Command="{Binding Click_Save}"/>
+
+        <Button Style="{StaticResource btStyle}" 
+                Grid.Column="2" Grid.Row="2"
+                Content="Удалить"
+                Command="{Binding Click_Delete}"/>
+    </Grid>
+</Window>

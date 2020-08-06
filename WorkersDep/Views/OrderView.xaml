@@ -1,0 +1,27 @@
+﻿<Window x:Class="WorkersDep.Views.OrderView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WorkersDep.Views"
+        mc:Ignorable="d"
+        Title="OrderView" Height="200" Width="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.4*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0.4*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Style="{StaticResource tblStyle}" Text="Название"/>
+        <TextBox Text="{Binding Order.Name, UpdateSourceTrigger=PropertyChanged}" Grid.Column="1" Style="{StaticResource tbStyle}"/>
+        <TextBlock Grid.Column="2" Style="{StaticResource tblStyle}" Text="{Binding Order.Id, StringFormat=Id: {0}}"/>
+
+        <Button Command="{Binding Click_Save}" Style="{StaticResource btStyle}" Grid.ColumnSpan="2" Grid.Row="1" Content="Сохранить"/>
+        <Button Command="{Binding Click_Delete}" Style="{StaticResource btStyle}" Grid.Column="2" Grid.Row="1" Content="Удалить"/>
+    </Grid>
+</Window>

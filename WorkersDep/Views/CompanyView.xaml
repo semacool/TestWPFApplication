@@ -1,0 +1,120 @@
+﻿<Window x:Class="WorkersDep.CompanyView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WorkersDep"
+        mc:Ignorable="d"
+        Title="Company" Height="450" Width="800">
+    <Window.Resources>
+
+        <!--#region Styles -->
+        <Style x:Key="MainInfo" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="25"/>
+        </Style>
+        <Style x:Key="SplitInfo" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="Margin" Value="0,0,5,0"/>
+        </Style>
+        <Style x:Key="AddInfo" TargetType="TextBlock">
+            <Setter Property="FontSize" Value="15"/>
+        </Style>
+        <!--#endregion-->
+        
+        <DataTemplate x:Key="lbDepartments">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="{Binding Name}" Style="{StaticResource MainInfo}"></TextBlock>
+                <TextBlock Text="{Binding Boss}" Style="{StaticResource AddInfo}"></TextBlock>
+            </StackPanel>
+        </DataTemplate>
+        <DataTemplate x:Key="lbWorkers">
+            <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{Binding Name}" Style="{StaticResource SplitInfo}"></TextBlock>
+                    <TextBlock Text="{Binding Surname}" Style="{StaticResource SplitInfo}"></TextBlock>
+                    <TextBlock Text="{Binding Middlename}" Style="{StaticResource SplitInfo}"></TextBlock>
+                </StackPanel>
+                <TextBlock Text="{Binding Birthday, StringFormat=\{0:D\}}" Style="{StaticResource AddInfo}"></TextBlock>
+                <TextBlock Text="{Binding Gender}" Style="{StaticResource AddInfo}"></TextBlock>
+            </StackPanel>
+
+        </DataTemplate>
+        <DataTemplate x:Key="lbOrders">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Text="{Binding Id,StringFormat=Id:{0}}" Style="{StaticResource AddInfo}"></TextBlock>
+                <TextBlock Text="{Binding Name}" Style="{StaticResource MainInfo}"></TextBlock>
+            </StackPanel>
+
+        </DataTemplate>
+
+        
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="auto"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <GroupBox Header="Подразделения" Grid.Column="4" >
+            <ListBox 
+                     ItemsSource="{Binding Departments}"
+                     ItemTemplate="{StaticResource lbDepartments}" 
+                     SelectedItem="{Binding SelectedDepartment}">
+                <ListBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Добавить" 
+                                  Command="{Binding Click_AddDepartment}"
+                                  CommandParameter="Department"/>
+                        <MenuItem Header="Подробнее" 
+                                  Command="{Binding Click_Department}"
+                                  CommandParameter="{Binding SelectedDepartment}"/>
+                    </ContextMenu>
+                </ListBox.ContextMenu>
+            </ListBox>
+
+        </GroupBox>
+        
+        
+        <GridSplitter Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="3"/>
+
+        <GroupBox Header="Рабочие" Grid.Column="2" >
+            <ListBox
+                 ItemsSource="{Binding SelectedDepartment.Workers}"
+                 ItemTemplate="{StaticResource lbWorkers}"
+                 SelectedItem="{Binding SelectedWorker}">
+                <ListBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Добавить"
+                              Command="{Binding Click_AddWorker}"
+                              CommandParameter="{Binding SelectedDepartment}"/>
+                        <MenuItem Header="Подробнее" 
+                              Command="{Binding Click_Worker}"
+                              CommandParameter="{Binding SelectedWorker}"/>
+                    </ContextMenu>
+                </ListBox.ContextMenu>
+            </ListBox>
+        </GroupBox>
+        
+        <GridSplitter Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Stretch" Width="3"/>
+
+        <GroupBox Header="Заказы" Grid.Column="0" >
+            <ListBox Grid.Column="0"
+                 ItemsSource="{Binding SelectedWorker.Orders}"
+                 ItemTemplate="{StaticResource lbOrders}"
+                 SelectedItem="{Binding SelectedOrder}">
+                <ListBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Добавить" 
+                              Command="{Binding Click_AddOrder}"
+                              CommandParameter="{Binding SelectedWorker}"/>
+                        <MenuItem Header="Подробнее"
+                              Command="{Binding Click_Order}"
+                              CommandParameter="{Binding SelectedOrder}"/>
+                    </ContextMenu>
+                </ListBox.ContextMenu>
+            </ListBox>
+        </GroupBox>
+    </Grid>
+</Window>
